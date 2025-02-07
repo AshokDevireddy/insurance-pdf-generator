@@ -89,12 +89,9 @@ export default function FormWrapper() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [currentStep, setCurrentStep] = useState(0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGeneratePDF = async () => {
     try {
       const filledPdfBytes = await fillPDF(formData);
-
-      // Create a blob and download the filled PDF
       const blob = new Blob([filledPdfBytes], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -124,6 +121,7 @@ export default function FormWrapper() {
           {steps.map((step, index) => (
             <button
               key={index}
+              type="button"
               onClick={() => setCurrentStep(index)}
               className={`px-3 py-1 rounded ${
                 currentStep === index
@@ -137,7 +135,7 @@ export default function FormWrapper() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-6">
         <CurrentStepComponent
           data={formData}
           onChange={(updatedData: Partial<FormData>) =>
@@ -166,14 +164,15 @@ export default function FormWrapper() {
             </button>
           ) : (
             <button
-              type="submit"
+              type="button"
+              onClick={handleGeneratePDF}
               className="bg-green-500 text-white px-4 py-2 rounded"
             >
               Generate PDF
             </button>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }

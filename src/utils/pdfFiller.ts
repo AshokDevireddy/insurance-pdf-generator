@@ -14,12 +14,12 @@ export async function fillPDF(formData: FormData): Promise<Uint8Array> {
     const pages = pdfDoc.getPages();
 
     // Add watermark to each page
-    const watermarkText = 'THIS COPY IS NOT LEGALLY BINDING\nAND IS ONLY FOR SALES PURPOSES';
+    const watermarkText = 'THIS COPY IS NOT LEGALLY BINDING\nAND IS ONLY FOR SALES PURPOSES\nAND NOT ASSOCIATED WITH ALFAC';
     pages.forEach(page => {
       const { width, height } = page.getSize();
       const textWidth = font.widthOfTextAtSize(watermarkText.split('\n')[0], 48);
       page.drawText(watermarkText, {
-        x: (width / 2) - (textWidth / 2) + 250,
+        x: (width / 2) - (textWidth / 2) + 200,
         y: (height / 2) - 24, // Offset by half the line height to center vertically
         size: 48,
         font,
